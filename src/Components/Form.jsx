@@ -1,25 +1,27 @@
 import React, { useState } from 'react'
 
-function Form({ onClose, onAddDoc }) {
+function Form({ onClose }) {
     const [name, setName] = useState('');
     const [status, setStatus] = useState('Needs signing');
 
     const handleAdd = () => {
-        
+
         const newDoc = {
             name: name,
             status: status,
             date: new Date().toLocaleDateString(),
             time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         };
+        const prevDocuments = JSON.parse(localStorage.getItem('my_documents'))
+        const totalDocuments = [...prevDocuments, newDoc]
 
-        onAddDoc(newDoc);
+        localStorage.setItem('my_documents', JSON.stringify(totalDocuments));
         onClose();
     };
 
     return (
         <div className='fixed inset-0 bg-black/20 flex items-center justify-center z-50' onClick={onClose}>
-            
+
             <div className='bg-white border h-96 w-100.5 rounded-2xl flex flex-col justify-between items-center p-6 shadow-xl'
                 onClick={(e) => e.stopPropagation()}>
 
@@ -28,7 +30,7 @@ function Form({ onClose, onAddDoc }) {
                 </div>
 
                 <div>
-                    <input 
+                    <input
                         type="text"
                         placeholder='Name Document'
                         value={name}
@@ -53,16 +55,16 @@ function Form({ onClose, onAddDoc }) {
                 </div>
 
                 <div className='flex flex-col gap-2 w-full items-center'>
-                    <button 
-                    // function connect
-                        onClick={handleAdd} 
+                    <button
+                        // function connect
+                        onClick={handleAdd}
                         className='text-white bg-blue-400 hover:bg-blue-500 rounded-lg px-6 py-2 w-full max-w-62.5 font-bold transition-transform hover:scale-105'
                     >
                         Add Doc
                     </button>
-                    
-                    <button 
-                        onClick={onClose} 
+
+                    <button
+                        onClick={onClose}
                         className='text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg px-6 py-2 w-full max-w-62.5 font-medium transition-transform hover:scale-105'
                     >
                         Close
@@ -72,5 +74,4 @@ function Form({ onClose, onAddDoc }) {
         </div>
     )
 }
-
 export default Form

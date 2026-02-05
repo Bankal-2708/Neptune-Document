@@ -11,7 +11,7 @@ import phone from '../assets/Phone.png'
 
 function SideNav() {
 
-    const navImgClass = "h-6 w-6 object-contain";
+    const navImgClass = "ml-4 h-6 w-6 object-contain";
     const navTextClass = "font-['Spline_Sans'] font-normal text-base leading-relaxed flex items-center pl-3";
     const divClass = 'flex ';
     const headingClass = "font-['Spline_Sans'] font-medium text-[24px] leading-[1.2] tracking-normal text-[#1F4451]";
@@ -20,7 +20,7 @@ function SideNav() {
 
     return (
 
-        <div className='m-5  w-92.75 h-screen '>
+        <div className='m-5  w-92.75 h-screen overflow-y-hidden'>
 
             <div className='pl-4 py-2'>
                 <img src={neptune} alt="" className='h-8 w-42' />
@@ -43,7 +43,7 @@ function SideNav() {
                         <p className={navTextClass}>Home</p>
                     </div>
                     <div className="flex items-center w-71.5 h-12.75 bg-[#D3F7B5] rounded-lg  ">
-                        <img src={doc} alt="" className='h-6 w-6 ml-2' />
+                        <img src={doc} alt="" className='h-6 w-6 ml-4' />
                         
                         <h1 className={navTextClass}>Documents</h1>
                     </div>
