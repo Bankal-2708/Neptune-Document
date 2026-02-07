@@ -12,7 +12,7 @@ function Form({ onClose }) {
             date: new Date().toLocaleDateString(),
             time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         };
-        const prevDocuments = JSON.parse(localStorage.getItem('my_documents'))
+        const prevDocuments = JSON.parse(localStorage.getItem('my_documents')) || [];
         const totalDocuments = [...prevDocuments, newDoc]
 
         localStorage.setItem('my_documents', JSON.stringify(totalDocuments));

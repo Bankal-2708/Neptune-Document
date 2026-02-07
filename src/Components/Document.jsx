@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import right from '../assets/RightAro.png'
 import search from '../assets/Search.png'
+import dot from '../assets/Three-dot.png'
 import Form from './Form'
+import Delete from './Delete'
 
 function Document() {
+
+  const handleDelete = (indexToDelete) => {
+    const currentDocs = [...document];
+    currentDocs.splice(indexToDelete, 1);
+
+    localStorage.setItem('my_documents', JSON.stringify(currentDocs));
+    setDocument(currentDocs);
+  };
 
   const [document, setDocument] = useState([]);
   const savedDocs = localStorage.getItem('my_documents');
@@ -12,7 +22,7 @@ function Document() {
     const docs = JSON.parse(savedDocs)
     setDocument(docs)
   }, [savedDocs])
-
+  const [openMenuIndex, setOpenMenuIndex] = useState(null);
   const [open, setopen] = useState(false);
   const [searchItem, setSearchItem] = useState();
 
@@ -44,7 +54,7 @@ function Document() {
         </div>
       </div>
 
-      <div className='w-full bg-white border border-[#E2E8F0] rounded-xl overflow-hidden shadow-sm'>
+      <div className='w-full bg-white border border-[#E2E8F0] rounded-xl shadow-sm overflow-visible'>
         <table className='text-left border-collapse w-full  '>
           <thead>
             <tr className='border-b border-[#E2E8F0] bg-[#F7FAFC]'>
@@ -83,10 +93,32 @@ function Document() {
                   <td className='p-4 text-[#718096] text-[13px]'>
                     {doc.date} <br /> {doc.time}
                   </td>
-                  <td className='p-4 text-right'>
-                    <button className='border border-[#E2E8F0] px-4 py-1.5 rounded-lg text-[14px] hover:bg-gray-50'>
-                      Sign now
-                    </button>
+                  <td className='p-4 text-right relative'> 
+                    <div className="flex justify-end items-center gap-2">
+                      <button className='border border-[#E2E8F0] px-4 py-1.5 rounded-lg text-[14px] hover:bg-gray-50'>
+                        Sign now
+                      </button>
+
+                      <img
+                        src={dot}
+                        alt="menu"
+                        className='h-6 cursor-pointer'
+                        onClick={() => setOpenMenuIndex(openMenuIndex === index ? null : index)}
+                      />
+                    </div>
+                    {openMenuIndex === index && (
+                      <div className='absolute right-4 top-12 w-32 bg-white border border-[#E2E8F0] shadow-lg rounded-lg z-50 py-2'>
+                        <button
+                          onClick={() => {
+                            handleDelete(index); 
+                            setOpenMenuIndex(null); 
+                          }}
+                          className='w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 text-sm font-medium'
+                        >
+                          Delete File
+                        </button>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -94,6 +126,7 @@ function Document() {
         </table>
       </div>
       {open && <Form onClose={() => setopen(false)} />}
+
     </div>
   )
 }
